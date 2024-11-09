@@ -65,3 +65,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+@property --rotate{
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: true;
+}
+
+@keyframes spin {
+  0% {
+    --rotate: 0deg;
+  }
+  100% {
+    --rotate: 360deg;
+  }
+}
+
+.rotating-border {
+  border: 2px solid;
+  border-image: linear-gradient(var(--rotate), red, blue) 1;
+  animation: spin 8s linear infinite;
+}

@@ -3,16 +3,12 @@ import React from 'react'
 
 const About = () => {
   return (
-    <div className="w-full py-12 lg:py-24 xl:py-32">
+    <div className="w-full py-12 lg:py-24 xl:py-32 text-center">
       <div className="container grid gap-12 px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2 ">
             <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800">About Us</div>
             <h1 className="text-4xl font-bold tracking-tighter sm:text-6xl">Modern Web Experiences</h1>
-            <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 text-center">
-              We empower teams to create the best web experiences. Our platform provides the fastest path to delivering
-              high-quality web experiences, allowing teams to focus on innovation instead of infrastructure.
-            </p>
             <blockquote className="text-lg font-semibold leading-snug lg:text-xl lg:leading-normal xl:text-2xl">
               Methodology should not be a fixed track to a fixed destination but a conversation about everything that
               could be made happen.

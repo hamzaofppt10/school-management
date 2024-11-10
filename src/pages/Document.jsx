@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import { FaCalendarAlt, FaFileAlt, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { FaCalendarAlt } from "react-icons/fa";
 
-// Sample list of documents that students can request
 const documentList = [
-  { id: 1, name: "Official Transcript" },
-  { id: 2, name: "Letter of Recommendation" },
-  { id: 3, name: "Certificate of Enrollment" },
-  { id: 4, name: "Degree Certificate" },
-  { id: 5, name: "Student ID Card" },
+  { id: 1, name: "demande de diplome", documentattachment: "carte de stagiaire" },
+  { id: 2, name: "Attestation de fin de formation", documentattachment: "" },
+  { id: 3, name: "Relevé de notes", documentattachment: "carte de stagiaire" },
+  { id: 4, name: "Certificat de stage", documentattachment: "" },
+  { id: 5, name: "Demande de stage", documentattachment: "" },
+  { id: 6, name: "Conventions de stage", documentattachment: "" },
+  { id: 7, name: "Demande de remboursement", documentattachment: "" },
+  { id: 8, name: "Carte d'identité ou de stagiaire", documentattachment: "certificat d'inscription" },
+  { id: 9, name: "Demande de diplôme ou de certificat", documentattachment: "carte de stagiaire" },
+  { id: 10, name: "Attestation de stage de fin d'études", documentattachment: "" },
+  { id: 11, name: "Demande d'absence", documentattachment: "Fichier pour l'absence" },
 ];
 
-// Status for requests
 const statusOptions = [
   { id: "pending", label: "Pending", color: "text-yellow-500" },
   { id: "processed", label: "Processed", color: "text-green-500" },
@@ -21,27 +25,29 @@ const DocumentRequest = () => {
   const [selectedDocument, setSelectedDocument] = useState("");
   const [requestDate, setRequestDate] = useState("");
   const [requestHistory, setRequestHistory] = useState([]);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const handleRequestSubmit = () => {
-    // Simulate adding a request to history
     const newRequest = {
       id: requestHistory.length + 1,
       document: selectedDocument,
       date: requestDate,
-      status: "pending", // Initial status is "pending"
+      status: "pending",
     };
 
     setRequestHistory([newRequest, ...requestHistory]);
     setSelectedDocument("");
     setRequestDate("");
+    setUploadedFiles([]);
+  };
+
+  const handleFileUpload = (e) => {
+    setUploadedFiles([...e.target.files]);
   };
 
   return (
     <div className="bg-white dark:bg-[#34495E] p-6 rounded-lg shadow-lg space-y-6 min-h-screen">
-      {/* Title */}
       <h2 className="text-3xl font-semibold text-black dark:text-[#96C9F4] mb-6">Request a Document</h2>
-
-      {/* Document Request Form */}
       <div className="space-y-4">
         <div className="flex flex-col">
           <label htmlFor="document" className="text-lg text-black dark:text-white mb-2">
@@ -77,6 +83,38 @@ const DocumentRequest = () => {
           </div>
         </div>
 
+        <div className={`flex flex-col ${!selectedDocument || !documentList.find(doc => doc.name === selectedDocument).documentattachment ? 'hidden' : ''}`}>
+          <label htmlFor="document-attachment" className="text-lg text-black dark:text-white mb-2">
+            Document Attachment
+          </label>
+          {selectedDocument && documentList.find(doc => doc.name === selectedDocument).documentattachment && (
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+              Please attach <span className="font-bold">{documentList.find(doc => doc.name === selectedDocument).documentattachment}</span>
+            </p>
+          )}
+          
+          <input
+            type="file"
+            id="document-attachment"
+            className="bg-gray-100 border-spacing-4 dark:bg-[#2C3E50] text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#3FA2F6] rounded-md p-2"
+            multiple
+            disabled={!selectedDocument || !documentList.find(doc => doc.name === selectedDocument).documentattachment}
+            onChange={handleFileUpload}
+          />
+          {uploadedFiles.length > 0 && (
+            <div className="mt-3">
+              <h4 className="text-lg text-black dark:text-white mb-2">Uploaded Files:</h4>
+              <ul className="list-disc ml-5">
+                {uploadedFiles.map((file, index) => (
+                  <li key={index} className="text-sm text-gray-700 dark:text-gray-300">
+                    {file.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+
         <button
           onClick={handleRequestSubmit}
           className="w-full py-2 text-white bg-[#3FA2F6] hover:bg-[#0F67B1] rounded-lg focus:outline-none transition duration-200 ease-in-out"
@@ -86,7 +124,6 @@ const DocumentRequest = () => {
         </button>
       </div>
 
-      {/* Request History */}
       <div className="mt-8 ">
         <h3 className="text-2xl font-semibold text-black dark:text-[#96C9F4] ">Request History</h3>
         <div className="space-y-4 mt-4">
@@ -114,3 +151,4 @@ const DocumentRequest = () => {
 };
 
 export default DocumentRequest;
+
